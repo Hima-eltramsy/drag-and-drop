@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        *{
+    padding: 0;
+    margin: 0;
+    font-family: sans-serif;
+}
+body{
+    background: #928cff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+    gap: 30px;
+}
+.inputs{
+    background: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    width: 300px;
+    height: 120px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+h2{
+    font-size: 32px;
+}
+.data{
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    gap: 4px;
+}
+.data input{
+    padding: 4px;
+    outline: none;
+    border: 1px solid #928cff;
+}
+.data button{
+    background: #928cff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+}
+.list{
+    display: flex;
+    /* -ms-flex-flow: row wrap; */
+    /* flex-flow: row wrap; */
+    justify-content: space-around;
+    width: 100%;
+    align-items: flex-start;
+    
+
+}
+.box{
+    background: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    width: 20%;
+  
+}
+.item{
+    background: #928cff;
+    padding: 10px;
+    margin: 4px;
+    cursor: move;
+    color: #fff;
+}
+@media print and (min-width: 340px){
+    body{
+        background: red;
+    }
+    
+}
+    </style>
+    <title>Drag and drop</title>
+</head>
+<body>
+    <div class="inputs">
+        <h2>Add Text</h2>
+        <div class="data">
+            <input type="text" id="inp">
+            <button id="btn">Add</button>
+        </div>
+    </div>
+    <div class="list">
+        <div class="box">
+            <h2>Box</h2>
+            </div>
+        </div>
+        <div class="box">
+            <h2>Box</h2>
+            
+        </div>
+        <div class="box">
+            <h2>Box</h2>
+          
+        </div>
+        <div class="box">
+            <h2>Box</h2>
+            
+        </div>
+    </div>
+    <script>
+        let btn = document.getElementById("btn");
+let inp = document.getElementById("inp")
+let boxs = document.querySelectorAll(".box")
+let drag = null;
+btn.onclick = function(){
+    if(inp.value != ''){
+        boxs[0].innerHTML += `
+        <p class="item" draggable="true">${inp.value}<p>
+        `
+        inp.value = ''
+        // console.log("drop")
+    }
+    dragitem()
+
+
+
+}
+function dragitem(){
+    let items = document.querySelectorAll(".item");
+    items.forEach(item=>{
+        item.addEventListener('dragstart', function(){
+            drag = item;
+            item.style.opacity = '0.5'
+        })
+
+        item.addEventListener('dragend', function(){
+            drag = null;
+            item.style.opacity = '1'
+        })
+        boxs.forEach(box=>{
+            box.addEventListener('dragover' , function(e){
+                e.preventDefault()
+                this.style.background = "#090"
+                this.style.color = "#fff"
+            })
+            box.addEventListener('dragleave' , function(){
+                this.style.background = "#fff"
+                this.style.color = "#000"
+            })
+            box.addEventListener('drop' , function(){
+                box.append(drag)
+                this.style.background = "#fff"
+                this.style.color = "#000"
+            })
+        })
+    })
+}
+print()
+    </script>
+</body>
+</html>
